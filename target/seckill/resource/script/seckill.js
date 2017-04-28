@@ -89,13 +89,21 @@ var seckill = {
                     var killUrl = seckill.URL.execution(seckillId, md5);
                     console.log("killUrl: " + killUrl);
                     //绑定一次点击事件
-                    $('#killBtn').on('click', function () {
+                    $('#killBtn').one('click', function () {
                         //执行秒杀请求
                         //1.先禁用按钮
                    //     $(this).addClass('disabled');//,<-$(this)===('#killBtn')->
                         //2.发送秒杀请求执行秒杀
-                        $.post(killUrl,{},function(resuilt){alert("defef")});
-
+                     //   $.post(killUrl,{},function(resuilt){})
+                      $.post(killUrl, {}, function (result) {
+                            if (result['success']) {
+                                var killResult = result['data'];
+                                var state = killResult['state'];
+                                var stateInfo = killResult['stateInfo'];
+                                //显示秒杀结果
+                                node.html('<span class="label label-success">' + stateInfo + '</span>');
+                            }
+                        });
                     });
                     node.show();
                 } else {
